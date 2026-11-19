@@ -1,21 +1,171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Axolotl </title>
-</head>
-<body>
-  <header>
-    <h1>Axolotl</h1>
-  </header>
+  <head>
+    <meta charset="utf-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
+    <meta
+      name="description"
+      content="Film und Fotografie von Alexander Ismailov aus Emden.">
+    <title>Alexander Ismailov — Film &amp; Fotografie</title>
+    <link rel="icon" href="assets/axolotl.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <script src="beispielmedien.js" defer></script>
+    <script src="media/katalog.js" defer></script>
+    <script src="media/details.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="scroll-root" id="portfolio" tabindex="-1">
+      <aside class="contact-strip" id="kontakt-oben" aria-label="Kontakt">
+        <span class="contact-label">Kontakt</span>
+        <div class="contact-person">
+          Alexander Ismailov
+          <span>Film &amp; Fotografie · Emden</span>
+        </div>
+        <div class="contact-email" data-contact></div>
+        <button
+          class="close-contact icon-button"
+          type="button"
+          aria-label="Zurück zum Logo"
+        >
+          ×
+        </button>
+      </aside>
 
-  <main>
-    <p>Hier steht dein Inhalt.</p>
-  </main>
+      <header class="hero-film" id="start">
+        <div class="hero-stage film">
+          <div class="hero-white" aria-hidden="true"></div>
+          <img
+            class="hero-logo"
+            src="assets/axolotl.svg"
+            alt=""
+            width="1000"
+            height="915">
+          <div class="hero-cues">
+            <button class="contact-trigger text-button" type="button">
+              Kontakt
+            </button>
+            <h1>
+              Alexander Ismailov
+              <span>Film &amp; Fotografie</span>
+            </h1>
+            <button class="work-trigger text-button" type="button">
+              Arbeiten
+            </button>
+          </div>
+        </div>
+      </header>
 
-  <footer>
-    <p>&copy; 2026 Meine Webseite</p>
-  </footer>
-</body>
+      <div id="film-auswahl"></div>
+      <div id="film-archiv" hidden></div>
+      <div class="archive-control" hidden>
+        <button type="button" aria-expanded="false" aria-controls="film-archiv">
+          Weitere Filme zeigen
+        </button>
+      </div>
+
+      <section class="gallery" id="fotografie" aria-labelledby="foto-titel">
+        <header class="gallery-header">
+          <h2 id="foto-titel">Fotografie</h2>
+          <p class="gallery-note">Ausgewählte Arbeiten</p>
+        </header>
+        <div class="photo-grid" id="foto-auswahl"></div>
+
+        <section class="photo-archive" aria-labelledby="archiv-titel">
+          <header class="archive-header">
+            <h3 id="archiv-titel">Fotogalerie</h3>
+            <div class="gallery-controls">
+              <button
+                type="button"
+                id="zurueck"
+                aria-label="Vorheriges Foto"
+                aria-controls="fotostrecke"
+              >
+                ←
+              </button>
+              <span
+                id="bildnummer"
+                aria-live="polite"
+                aria-atomic="true"
+              ></span>
+              <button
+                type="button"
+                id="weiter"
+                aria-label="Nächstes Foto"
+                aria-controls="fotostrecke"
+              >
+                →
+              </button>
+            </div>
+          </header>
+          <div
+            class="photo-track"
+            id="fotostrecke"
+            tabindex="0"
+            role="region"
+            aria-label="Bilder durchblättern"
+          ></div>
+        </section>
+      </section>
+
+      <footer class="footer" id="kontakt">
+        <div class="footer-top">
+          <span class="eyebrow">Alexander Ismailov</span>
+          <button class="back-top text-button" type="button">
+            Zurück zum Anfang
+          </button>
+        </div>
+        <h2>Kontakt.</h2>
+        <div class="footer-contact">
+          <div data-contact></div>
+          <p>
+            Film &amp; Fotografie
+            <br>
+            Emden, Deutschland
+          </p>
+        </div>
+        <div class="footer-bottom">
+          <a href="assets/axolotl.svg" download>Axolotl-Signet</a>
+          <details class="credits">
+            <summary>Medienquellen</summary>
+            <ul id="quellen"></ul>
+          </details>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Jeder Film erhält dieselben Steuerelemente. app.js setzt Titel und Quelle ein. -->
+    <template id="film-vorlage">
+      <div class="film-player" data-view="crop">
+        <video muted loop playsinline preload="none"></video>
+        <div class="film-shade" aria-hidden="true"></div>
+        <div class="film-description">
+          <span class="eyebrow"></span>
+          <h2></h2>
+        </div>
+        <div class="film-controls">
+          <button type="button" data-action="play">Abspielen</button>
+          <button type="button" data-action="sound" aria-pressed="false">
+            Ton
+          </button>
+          <button type="button" data-action="frame">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 8V5h5m8 0h5v3m0 8v3h-5M8 19H3v-3" />
+            </svg>
+            <span>Ganzes Bild</span>
+          </button>
+        </div>
+        <p class="media-message" role="status"></p>
+      </div>
+    </template>
+    <dialog class="screen-dialog" aria-label="Film im Vollbild"></dialog>
+    <noscript>
+      <p class="no-script">
+        Bitte aktiviere JavaScript, um die Filme und Fotos zu laden.
+      </p>
+    </noscript>
+  </body>
 </html>
